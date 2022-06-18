@@ -1,5 +1,6 @@
 import re
 import pandas as pd
+from data import Olist
 
 def remove_prefix(text):
     '''
@@ -14,7 +15,6 @@ def count_p_location(df,features,group_by):
     Return number of sellers or customers sorted by either state or zip code
     features= list of columns of interest
     group_by= either "state" or "zip_code"
-
     '''
     new_df = df[features]\
                         .groupby(by= features[0])\
@@ -33,10 +33,13 @@ def count_p_location(df,features,group_by):
         new_df['Percentage'] = new_df['Percentage'].map('{:,.1f}%'.format)
 
     if group_by == "zip_code":
+        geolocation= Olist().get_data()['geolocation']
         geo_by_zip_code = geolocation.groupby('geolocation_zip_code_prefix')\
                                 .agg({'geolocation_lat':'mean', 'geolocation_lng': 'mean'})
         new_df = new_df.merge(geo_by_zip_code,
                           how = 'left',
                           left_on = 'zip_code_prefix',
                           right_on='geolocation_zip_code_prefix')
+        new_df.dropna(inplace= True)
+
     return new_df
