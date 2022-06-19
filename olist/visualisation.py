@@ -2,7 +2,7 @@ import seaborn as sns
 import folium
 
 
-def plot_by_zip_code(df):
+def plot_by_state(df):
     '''
     Return seaborn barplot of number of sellers/customers in each state,
     with annotation in percentage.
@@ -24,14 +24,20 @@ def plot_map(df,**kwargs):
     '''
     defaultKwargs = { 'color': "red", 'icon': "flag"}
     kwargs = { **defaultKwargs, **kwargs }
+
+    # Initiate blank map
     map = folium.Map(location=[df['geolocation_lat'].mean(),
                                df['geolocation_lng'].mean()],
                      zoom_start=5,
                      control_scale=True)
 
+    # Plot locations using markers
     for i, row in df.iterrows():
         folium.Marker(location=[row.geolocation_lat, row.geolocation_lng],
                         popup=row.zip_code_prefix,
                         icon=folium.Icon(kwargs),
                         ).add_to(map)
     return map
+
+if __name__ == '__main__':
+    print('visualisation')

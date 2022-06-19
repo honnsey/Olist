@@ -1,6 +1,6 @@
 import re
 import pandas as pd
-from data import Olist
+from olist.data import Olist
 
 def remove_prefix(text):
     '''
@@ -14,7 +14,7 @@ def count_p_location(df,features,group_by):
     '''
     Return number of sellers or customers sorted by either state or zip code
     features= list of columns of interest
-    group_by= either "state" or "zip_code"
+    group_by= either "state" or "zip_code".
     '''
     new_df = df[features]\
                         .groupby(by= features[0])\
