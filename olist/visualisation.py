@@ -1,4 +1,5 @@
 import seaborn as sns
+import pandas as pd
 import folium
 
 
@@ -16,6 +17,7 @@ def plot_by_state(df):
         x = patch.get_width() + 20
         plot.annotate(percentage,(x,y), verticalalignment= 'center')
         y += 1
+    return plot
 
 def plot_map(df,**kwargs):
     '''
@@ -35,7 +37,7 @@ def plot_map(df,**kwargs):
     for i, row in df.iterrows():
         folium.Marker(location=[row.geolocation_lat, row.geolocation_lng],
                         popup=row.zip_code_prefix,
-                        icon=folium.Icon(kwargs),
+                        icon=folium.Icon(**kwargs)
                         ).add_to(map)
     return map
 
