@@ -1,6 +1,7 @@
 import seaborn as sns
 import pandas as pd
 import folium
+import folium.plugins as plugins
 
 
 def plot_by_state(df):
@@ -39,6 +40,17 @@ def plot_map(df,**kwargs):
                         popup=row.zip_code_prefix,
                         icon=folium.Icon(**kwargs)
                         ).add_to(map)
+    return map
+
+def plot_cluster(df):
+    map = folium.Map(location=[df['geolocation_lat'].mean(),
+                                df['geolocation_lng'].mean()],
+                        zoom_start=5,
+                        control_scale=True)
+    locations = list(zip(df['geolocation_lat'],
+                            df['geolocation_lng']))
+
+    plugins.FastMarkerCluster(data=locations).add_to(map)
     return map
 
 if __name__ == '__main__':
