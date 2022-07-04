@@ -18,8 +18,8 @@ def plot_by_state(df, **kwargs):
                        )
 
     y = 0
-    for patch, percentage in zip(plot.patches, df.iloc[:,2]):
-        x = patch.get_width() + 20
+    for patch, percentage in zip(plot.patches, df.iloc[:,2]):   # for each patch/bar
+        x = patch.get_width() + 20                              # offset 20 from end of bar
         plot.annotate(percentage,(x,y), verticalalignment= 'center')
         y += 1
     return plot
