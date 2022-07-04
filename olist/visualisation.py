@@ -4,14 +4,18 @@ import folium
 import folium.plugins as plugins
 
 
-def plot_by_state(df):
+def plot_by_state(df, **kwargs):
     '''
     Return seaborn barplot of number of sellers/customers in each state,
     with annotation in percentage.
     Input = processed df containing zip code lat long and number of sellers or customers
+    kwargs for seaborn barplot
     '''
     sns.set(rc={'figure.figsize':(16,8)})
-    plot = sns.barplot(x= df.iloc[:,1], y = df.iloc[:,0], data= df);
+    plot = sns.barplot(x= df.iloc[:,1], y = df.iloc[:,0],
+                       data= df,
+                       **kwargs
+                       )
 
     y = 0
     for patch, percentage in zip(plot.patches, df.iloc[:,2]):
