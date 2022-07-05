@@ -58,7 +58,7 @@ def plot_cluster(df):
     plugins.FastMarkerCluster(data=locations).add_to(map)
     return map
 
-def double_plot(df,**kwargs):
+def double_plot(df,title,**kwargs):
     '''
     Return number of orders in barplot and order value by the chosen category (day of week or month) on the same plot
     Input dataframe includes three columns in the order of [Month/Day of Week as index, 'order_id', 'payment_value']
@@ -71,7 +71,7 @@ def double_plot(df,**kwargs):
                    y = 'order_id',
                    data = df,
                    **kwargs)
-    # plot2.set(title='Sales Over Time')
+    plot.set(title= title, xlabel= None)
     plot.set_ylabel("Number of Orders")
     plot.set_ylim(0,df['order_id'].max()*2)
     locs, labels = plt.xticks()
