@@ -1,4 +1,5 @@
 import seaborn as sns
+import matplotlib.pyplot as plt
 import pandas as pd
 import folium
 import folium.plugins as plugins
@@ -56,6 +57,36 @@ def plot_cluster(df):
 
     plugins.FastMarkerCluster(data=locations).add_to(map)
     return map
+
+def double_plot(df,**kwargs):
+    '''
+    Return number of orders in barplot and order value by the chosen category (day of week or month) on the same plot
+    Input dataframe includes three columns in the order of [Month/Day of Week as index, 'order_id', 'payment_value']
+    kwargs are key word arguments for barplot
+    '''
+    # ###########################
+    # "number of orders" barplot
+    #############################
+    plot = sns.barplot(x= df.index,
+                   y = 'order_id',
+                   data = df,
+                   **kwargs)
+    # plot2.set(title='Sales Over Time')
+    plot.set_ylabel("Number of Orders")
+    plot.set_ylim(0,df['order_id'].max()*2)
+    locs, labels = plt.xticks()
+    plt.setp(labels, rotation=45);
+
+    # ###########################
+    # "Order Value" Line Plot
+    #############################
+    ax2 = plt.twinx()
+    sns.lineplot(data=df.payment_value,
+                 color="grey", linestyle= '-.', marker= "o", # use "marker =" not "markers = "
+                 ax=ax2)
+    ax2.grid(False)
+    ax2.set_ylim(0e6,df['payment_value'].max()*1.1)
+    ax2.set_ylabel('Order Value ($)');
 
 if __name__ == '__main__':
     print('visualisation')
