@@ -13,13 +13,13 @@ def plot_by_state(df, **kwargs):
     kwargs for seaborn barplot
     '''
     sns.set(rc={'figure.figsize':(16,8)})
-    plot = sns.barplot(x= df.iloc[:,1], y = df.iloc[:,0],
+    plot = sns.barplot(x= df.iloc[:,0], y = df.index,
                        data= df,
                        **kwargs
                        )
 
     y = 0
-    for patch, percentage in zip(plot.patches, df.iloc[:,2]):   # for each patch/bar
+    for patch, percentage in zip(plot.patches, df.iloc[:,1]):   # for each patch/bar
         x = patch.get_width() + 20                              # offset 20 from end of bar
         plot.annotate(percentage,(x,y), verticalalignment= 'center')
         y += 1

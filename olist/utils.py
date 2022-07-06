@@ -19,8 +19,7 @@ def count_p_location(df,features,group_by):
     new_df = df[features]\
                         .groupby(by= features[0])\
                         .count()\
-                        .sort_values(by= features[1], ascending= False)\
-                        .reset_index()
+                        .sort_values(by= features[1], ascending= False)
 
     # new column names:
     new_column_names = {feature : feature.replace(remove_prefix(feature),"")
@@ -29,7 +28,7 @@ def count_p_location(df,features,group_by):
 
     if group_by == "state":
         # Create percentage column for annotation on barplot
-        new_df['Percentage'] = new_df.iloc[:,1]/sum(new_df.iloc[:,1]) * 100
+        new_df['Percentage'] = new_df.iloc[:,0]/sum(new_df.iloc[:,0]) * 100
         new_df['Percentage'] = new_df['Percentage'].map('{:,.1f}%'.format)
 
     if group_by == "zip_code":
@@ -38,7 +37,7 @@ def count_p_location(df,features,group_by):
                                 .agg({'geolocation_lat':'mean', 'geolocation_lng': 'mean'})
         new_df = new_df.merge(geo_by_zip_code,
                           how = 'left',
-                          left_on = 'zip_code_prefix',
+                          left_on = new_df.index,
                           right_on='geolocation_zip_code_prefix')
         new_df.dropna(inplace= True)
 
