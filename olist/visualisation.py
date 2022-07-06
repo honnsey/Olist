@@ -68,12 +68,12 @@ def double_plot(df,title,**kwargs):
     # "number of orders" barplot
     #############################
     plot = sns.barplot(x= df.index,
-                   y = 'order_id',
+                   y = 'order_count',
                    data = df,
                    **kwargs)
     plot.set(title= title, xlabel= None)
     plot.set_ylabel("Number of Orders")
-    plot.set_ylim(0,df['order_id'].max()*2)
+    plot.set_ylim(0,df['order_count'].max()*2)
     locs, labels = plt.xticks()
     plt.setp(labels, rotation=45);
 
@@ -81,11 +81,11 @@ def double_plot(df,title,**kwargs):
     # "Order Value" Line Plot
     #############################
     ax2 = plt.twinx()
-    sns.lineplot(data=df.payment_value,
+    sns.lineplot(data=df.total_value,
                  color="grey", linestyle= '-.', marker= "o", # use "marker =" not "markers = "
                  ax=ax2)
     ax2.grid(False)
-    ax2.set_ylim(0e6,df['payment_value'].max()*1.1)
+    ax2.set_ylim(0e6,df['total_value'].max()*1.1)
     ax2.set_ylabel('Order Value ($)');
 
 if __name__ == '__main__':
