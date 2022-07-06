@@ -42,3 +42,10 @@ def count_p_location(df,features,group_by):
         new_df.dropna(inplace= True)
 
     return new_df
+
+def delay_encoder(row):
+    '''
+    Return 0 if order delivered prior to estimated delivery date
+    Return 1 if order was delayed
+    '''
+    return 0 if row['estimated_delivery_date'] >= row['delivered_date'] else 1
